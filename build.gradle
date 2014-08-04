@@ -14,7 +14,7 @@ configurations {
 }
 
 gradle.projectsEvaluated {
-    compileJava.dependsOn(compileJasperReports)
+    processResources.dependsOn(compileJasperReports)
 }
 dependencies {
     jasperreports 'net.sf.jasperreports:jasperreports:5.6.0',
@@ -29,6 +29,7 @@ task compileJasperReports {
         taskdef(name: 'jrc', classname: 'net.sf.jasperreports.ant.JRAntCompileTask', classpath: configurations.jasperreports.asPath)
         sourceSets.main.output.classesDir.mkdirs()
         jrc(srcdir: jasperSourceDir, destdir: sourceSets.main.output.classesDir) {
+            classpath(path: sourceSets.main.output.classesDir)
             include(name: '**/*.jrxml')
         }
     }
