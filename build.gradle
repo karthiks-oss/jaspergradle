@@ -2,9 +2,31 @@ apply plugin: 'java'
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
-dependencies {
-    compile 'org.slf4j:slf4j-api:1.7.5'
-    testCompile "junit:junit:4.11"
+configurations {
+    jasperreports {
+        transitive = true
+    }
 }
+dependencies {
+    jasperreports 'net.sf.jasperreports:jasperreports:5.6.0',
+            'org.codehaus.groovy:groovy-all:2.3.6'
+}
+
+
+
+task compileJasperJava() << {
+    def jasperSourceDir = file('src/main/jasperreports')
+    def jasperTargetDir = file('build/')
+    ant {
+        taskdef(name: 'jrc', classname: 'net.sf.jasperreports.ant.JRAntCompileTask', classpath: configurations.jasperreports.asPath)
+        jasperTargetDir.mkdirs()
+        jrc(srcdir: jasperSourceDir, destdir: jasperTargetDir) {
+            classpath(path: sourceSets.main.output.classesDir)
+            include(name: '**/*.jrxml')
+        }
+    }
+}
+classes.dependsOn compileJasperJava
