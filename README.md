@@ -1,15 +1,15 @@
-##Introduction
+## Introduction
 Recently I migrated my project from Maven to Gradle. In the process I faced lots of challenges, one of them is 
 compiling JasperReport. 
 
 This post explains how to compile jasperreport's ```jrxml``` to ```jasper``` and package ```jasper``` 
 to the jar.
 
-##Prerequisites
+## Prerequisites
 1. JDK 1.7 or later
 2. Gradle 2
 
-##Project Structure
+## Project Structure
 It's a typical gradle structure except ```src/main/jasperreports``` which will have the ```*.jrxml``` files.
 
     Project Root
@@ -20,7 +20,7 @@ It's a typical gradle structure except ```src/main/jasperreports``` which will h
                 |--jasperreports/
                 |--java/
           
-##Gradle Script
+## Gradle Script
 
 ```groovy
 apply plugin: 'java'
@@ -63,6 +63,6 @@ task compileJasperReports {
 
 This build script has two maven urls which has the dependency for jasperreport which are not available in maven central repo.
 
-##Conclusion
+## Conclusion
 When the project is build the ```*.jrxml``` files will be compiled to ```*.jasper``` filed and copied to the classes folder.
 So when the project is packaged these ```*.jrxml``` files will be available in classpath
